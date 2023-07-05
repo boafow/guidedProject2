@@ -8,7 +8,7 @@ mongoose.connect(mongoString)
 const database = mongoose.connection
 
 database.on('error', (err)=> {
-    console.log(error);
+    console.log(err);
 })
 
 database.once('connected', ()=> {
