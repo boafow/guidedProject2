@@ -32,7 +32,7 @@ router.get('/films', async (req, res) => {
 
 router.get('/characters/:id', async (req, res) => {
     try {
-        const data = await model.Characters.findById(req.params.id)
+        const data = await model.Characters.find({id: parseInt(req.params.id)})
         res.json(data)
     } catch(err) {
         res.status(500).json({message: err.message})
@@ -41,7 +41,7 @@ router.get('/characters/:id', async (req, res) => {
 
 router.get('/films/:id', async (req, res) => {
     try {
-        const data = await model.Characters.findById(req.params.id)
+        const data = await model.Films.find({pk: parseInt(req.params.id)})
         res.json(data)
     } catch(err) {
         res.status(500).json({message: err.message})
@@ -50,15 +50,22 @@ router.get('/films/:id', async (req, res) => {
 
 router.get('/planets/:id', async (req, res) => {
     try {
-        const data = await model.Planets.findById(req.params.id)
+        const data = await model.Planets.find({id: parseInt(req.params.id)})
         res.json(data)
     } catch(err) {
         res.status(500).json({message: err.message})
     }
 })
 
-router.get('/films/:id/characters', (req, res) => {
-    res.send('Get All Planets')
+//Lets select multiple ids using data.characters 
+//characters from film where film id equals value
+router.get('/films/:id/characters', async (req, res) => {
+    try {
+        const data = await model.Films.find({pk: parseInt(req.params.id)}).select({"fields": {"characters":1} });
+        res.json(data)
+    } catch(err) {
+        res.status(500).json({message: err.message})
+    }
 })
 
 router.get('/films/:id/planets', (req, res) => {
