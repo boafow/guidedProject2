@@ -61,8 +61,10 @@ router.get('/planets/:id', async (req, res) => {
 //characters from film where film id equals value
 router.get('/films/:id/characters', async (req, res) => {
     try {
-        const data = await model.Films.find({pk: parseInt(req.params.id)}).select({"fields": {"characters":1} });
-        res.json(data)
+        const data = await model.Films.findOne({pk: parseInt(req.params.id)}).select({"fields": {"characters":1} });
+        const data2 = await model.Characters.find({'id': {$in:data.fields.characters}})
+        console.log(data.fields.characters)
+        res.json(data2)
     } catch(err) {
         res.status(500).json({message: err.message})
     }
