@@ -50,7 +50,7 @@ router.get('/films/:id', async (req, res) => {
 
 router.get('/planets/:id', async (req, res) => {
     try {
-        const data = await model.planets.findById(req.params.id)
+        const data = await model.Planets.findById(req.params.id)
         res.json(data)
     } catch(err) {
         res.status(500).json({message: err.message})
