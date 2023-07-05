@@ -81,8 +81,14 @@ router.get('/films/:id/planets', async (req, res) => {
     }
 })
 
-router.get('/characters/:id/films', (req, res) => {
-    res.send('Get All Planets')
+router.get('/characters/:id/films', async (req, res) => {
+    try {
+        const data = await model.Characters.findOne({id: parseInt(req.params.id)}).select({"id":1});
+        console.log(data.id)
+        res.json(data)
+    } catch(err) {
+        res.status(500).json({message: err.message})
+    }
 })
 
 router.get('/planets/:id/films', (req, res) => {
