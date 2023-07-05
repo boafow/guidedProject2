@@ -12,12 +12,22 @@ router.get('/planets', async (req, res)=> {
     }
 })
 
-router.get('/characters', (req, res)=> {
-    res.send('Get All Planets')
+router.get('/characters', async (req, res)=> {
+    try {
+        const data = await model.Characters.find();
+        res.json(data)
+    } catch (err) {
+        res.json(err)
+    }
 })
 
-router.get('/films', (req, res)=> {
-    res.send('Get All Planets')
+router.get('/films', async (req, res)=> {
+    try {
+        const data = await model.Films.find();
+        res.json(data)
+    } catch (err) {
+        res.json(err)
+    }
 })
 
 router.get('/characters/:id', (req, res)=> {
