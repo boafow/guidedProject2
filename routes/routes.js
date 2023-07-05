@@ -83,20 +83,35 @@ router.get('/films/:id/planets', async (req, res) => {
 
 router.get('/characters/:id/films', async (req, res) => {
     try {
-        const data = await model.Characters.findOne({id: parseInt(req.params.id)}).select({"id":1});
-        console.log(data.id)
-        res.json(data)
+        const data = await model.Characters.findOne({id: parseInt(req.params.id)}).select({"id":1, "name":1});
+        const data2 = await model.Films.find({'fields.characters': data.id});
+        console.log(data.name)
+        res.json(data2)
     } catch(err) {
         res.status(500).json({message: err.message})
     }
 })
 
-router.get('/planets/:id/films', (req, res) => {
-    res.send('Get All Planets')
+router.get('/planets/:id/films', async (req, res) => {
+    try {
+        const data = await model.Planets.findOne({id: parseInt(req.params.id)}).select({"id":1, "name":1});
+        const data2 = await model.Films.find({'fields.planets': data.id});
+        console.log(data.name)
+        res.json(data2)
+    } catch(err) {
+        res.status(500).json({message: err.message})
+    }
 })
 
-router.get('/planets/:id/characters', (req, res) => {
-    res.send('Get All Planets')
+router.get('/planets/:id/characters', async (req, res) => {
+    try {
+        const data = await model.Planets.findOne({id: parseInt(req.params.id)}).select({"id":1, "name":1});
+        const data2 = await model.Characters.find({'homeworld': data.id});
+        console.log(data.name)
+        res.json(data2)
+    } catch(err) {
+        res.status(500).json({message: err.message})
+    }
 })
 
 module.exports = router
