@@ -70,8 +70,15 @@ router.get('/films/:id/characters', async (req, res) => {
     }
 })
 
-router.get('/films/:id/planets', (req, res) => {
-    res.send('Get All Planets')
+router.get('/films/:id/planets', async (req, res) => {
+    try {
+        const data = await model.Films.findOne({pk: parseInt(req.params.id)}).select({"fields": {"planets":1} });
+        const data2 = await model.Planets.find({'id': {$in:data.fields.planets}})
+        console.log(data.fields.planets)
+        res.json(data2)
+    } catch(err) {
+        res.status(500).json({message: err.message})
+    }
 })
 
 router.get('/characters/:id/films', (req, res) => {
