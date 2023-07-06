@@ -15,6 +15,7 @@ router.get('/planets', async (req, res) => {
 router.get('/characters', async (req, res) => {
     try {
         const data = await model.Characters.find();
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.json(data)
     } catch (err) {
         res.json(err)
